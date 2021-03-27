@@ -1,0 +1,14 @@
+{
+  "name": "moxy-js",
+  "version": "0.0.1",
+  "description": "Mocks & Proxies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Felipe Morales",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
