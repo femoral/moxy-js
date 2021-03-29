@@ -3,12 +3,28 @@
   "version": "0.0.1",
   "description": "Mocks & Proxies",
   "main": "index.js",
+  "bin": {
+    "moxy": "bin/moxy-js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cross-env node index.js"
   },
   "author": "Felipe Morales",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "moxy-js-server": "^0.0.1-alpha.2",
+    "moxy-js-spa": "^0.0.1-alpha.2",
+    "open": "^8.0.4",
+    "shelljs": "^0.8.4",
+    "yargs": "^16.2.0"
+  },
+  "keywords": [
+    "mock", "proxy", "moxy"
+  ],
+  "homepage": "https://github.com/femoral/moxy-js#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/femoral/moxy-js.git"
   }
 }
