@@ -26,9 +26,15 @@ app.listen(port, async () => {
   try {
     await childController.start();
   } catch (e) {
-    console.error("Error while starting child server", e)
+    console.error("Error while starting child server", e);
     process.exit(1);
   }
-  console.log(`Access with browser at: http://localhost:${port}`)
-  await open(`http://localhost:${port}`);
+
+  console.log(`Access with browser at: http://localhost:${port}`);
+
+  try {
+    await open(`http://localhost:${port}`)
+  } catch (e) {
+    console.error(`Error while opening browser at: http://localhost:${port}`, e)
+  }
 })
