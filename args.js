@@ -21,4 +21,11 @@ module.exports = yargs(hideBin(process.argv))
     description:
       "Debounce time in milliseconds for child server restarts",
     default: 5000,
+  })
+  .option("skip-open", {
+    alias: "s",
+    type: "boolean",
+    description:
+      "Skip browser launch",
+    default: false,
   }).argv;

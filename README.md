@@ -32,4 +32,5 @@ Options:
                     served                              [number] [default: 3501]
   -d, --debounce    Debounce time in milliseconds for child server restarts
                                                         [number] [default: 5000]
+  -s, --skip-open   Skip browser launch               [boolean] [default: false]
 ```

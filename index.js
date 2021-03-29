@@ -1,4 +1,4 @@
-const {childPort, port, debounce} = require("./args");
+const {childPort, port, debounce, skipOpen} = require("./args");
 const {default: moxy} = require("moxy-js-server");
 const {CONFIG_DIRECTORY, init} = require("./config");
 const express = require("express");
@@ -32,9 +32,10 @@ app.listen(port, async () => {
 
   console.log(`Access with browser at: http://localhost:${port}`);
 
-  try {
-    await open(`http://localhost:${port}`)
-  } catch (e) {
-    console.error(`Error while opening browser at: http://localhost:${port}`, e)
-  }
+  if (!skipOpen)
+    try {
+      await open(`http://localhost:${port}`)
+    } catch (e) {
+      console.error(`Error while opening browser at: http://localhost:${port}`, e)
+    }
 })
