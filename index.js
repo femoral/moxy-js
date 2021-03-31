@@ -17,7 +17,7 @@ const {
 const app = express();
 
 app.get("/", (req, res) => res.redirect("/web"))
-app.use("/web", express.static("node_modules/moxy-js-spa/build"));
+app.use("/web", express.static(`${__dirname}/node_modules/moxy-js-spa/build`));
 app.use(moxyApiRouter);
 
 app.listen(port, async () => {
