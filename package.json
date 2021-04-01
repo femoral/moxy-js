@@ -7,16 +7,17 @@
     "moxy": "bin/moxy-js"
   },
   "scripts": {
-    "start": "cross-env node index.js"
+    "start": "node index.js"
   },
   "author": "Felipe Morales",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
-    "moxy-js-server": "0.0.1-alpha.3",
+    "moxy-js-server": "0.0.1-alpha.4",
     "moxy-js-spa": "0.0.1-alpha.2",
     "open": "^8.0.4",
     "shelljs": "^0.8.4",
+    "simple-git": "^2.37.0",
     "yargs": "^16.2.0"
   },
   "keywords": [
