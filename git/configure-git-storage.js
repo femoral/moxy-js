@@ -5,19 +5,20 @@ const { resolvePrivateKey } = require("./private-key-resolver");
 
 const branch = "master";
 const remoteName = "origin";
+const rebaseStrategy = "ours";
 const gitignore = `
 .DS_Store
 `;
 
 const makeUploadChanges = async ({ remote, key, collectionsPath }) => {
-  const keyPath = resolvePrivateKey(key);
+  const sshCommand = `ssh -i ${resolvePrivateKey(
+    key
+  )} -o IdentitiesOnly=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -F /dev/null`;
+
   const git = simpleGit({
     baseDir: collectionsPath,
     maxConcurrentProcesses: 1,
-  }).env(
-    "GIT_SSH_COMMAND",
-    `ssh -i ${keyPath} -o IdentitiesOnly=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -F /dev/null`
-  );
+  }).env("GIT_SSH_COMMAND", sshCommand);
 
   const branchExistOnRemote = async () => {
     const branchSummary = await git.branch(["-r"]);
@@ -26,28 +27,32 @@ const makeUploadChanges = async ({ remote, key, collectionsPath }) => {
 
   const initLocalRepository = async () => {
     if (!(await git.checkIsRepo())) {
+      console.log(`git: executing init on ${collectionsPath}`);
       await git.init();
       fs.writeFileSync(path.join(collectionsPath, ".gitignore"), gitignore);
     }
   };
 
   const addGitConfig = async () => {
+    console.log(`git: writing local config`);
     await git
       .addConfig("user.name", "moxyd")
       .addConfig("user.email", "moxyd@moxyd.org")
-      .addConfig(
-        "core.sshCommand",
-        `ssh -i ${keyPath} -o IdentitiesOnly=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -F /dev/null`
-      );
+      .addConfig("core.sshCommand", sshCommand);
   };
 
   const initRemote = async () => {
+    console.log(`git: verifying remote config`);
     const remotes = await git.getRemotes();
+
     if (remotes.find((element) => element.name === remoteName)) {
       await git.remote(["set-url", remoteName, remote]);
     } else {
+      console.log(`git: adding remote ${remoteName} -> ${remote}`);
       await git.addRemote(remoteName, remote);
     }
+
+    await git.fetch(remoteName, branch);
   };
 
   const commit = async (message) => {
@@ -56,12 +61,16 @@ const makeUploadChanges = async ({ remote, key, collectionsPath }) => {
   };
 
   const push = async (message) => {
+    console.log(`git: pushing changes`);
     await commit(message);
 
     await git.fetch(remoteName, branch);
 
     if (await branchExistOnRemote()) {
-      await git.rebase(["-X", "ours", `${remoteName}/${branch}`]);
+      console.log(
+        `git: rebasing remote changes with strategy ${rebaseStrategy}`
+      );
+      await git.rebase(["-X", rebaseStrategy, `${remoteName}/${branch}`]);
     }
 
     await git.push(remoteName, branch);
@@ -70,7 +79,6 @@ const makeUploadChanges = async ({ remote, key, collectionsPath }) => {
   await initLocalRepository();
   await addGitConfig();
   await initRemote();
-  await git.fetch(remoteName, branch);
   await push("application startup" + new Date().toUTCString());
 
   return { push, commit };

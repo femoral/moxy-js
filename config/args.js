@@ -27,6 +27,9 @@ module.exports = yargs(hideBin(process.argv))
     description: "Skip browser launch",
     default: false,
   })
+  .option("git", {
+    type: "object",
+  })
   .option("git.remote", {
     type: "string",
     description: "Remote url of git repository",
@@ -55,4 +58,5 @@ module.exports = yargs(hideBin(process.argv))
 
     return true;
   })
+  .strictOptions(true)
   .env("MOXY").argv;

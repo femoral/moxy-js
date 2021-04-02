@@ -14,11 +14,6 @@ const oneMinuteInMilliseconds = 60000;
 module.exports = {
   bootstrap: async () => {
     const { collectionsPath, configPath } = configureLocalStorage();
-    const { childController, moxyApiRouter } = moxy({
-      childPort,
-      configPath: configPath,
-      debounceTime: debounce,
-    });
 
     const { commit, push } = remote
       ? await makeUploadChanges({
@@ -27,6 +22,13 @@ module.exports = {
           key: privateKey,
         })
       : { commit: () => {}, push: () => {} };
+
+    const { childController, moxyApiRouter } = moxy({
+      childPort,
+      configPath: configPath,
+      debounceTime: debounce,
+      onChange: commit,
+    });
 
     if (remote) {
       setInterval(async () => {
