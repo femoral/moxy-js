@@ -27,6 +27,12 @@ module.exports = yargs(hideBin(process.argv))
     description: "Skip browser launch",
     default: false,
   })
+  .option("enable-health", {
+    alias: "h",
+    type: "boolean",
+    description: "Enable health check on /health",
+    default: false,
+  })
   .option("git", {
     type: "object",
   })

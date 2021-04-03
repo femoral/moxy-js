@@ -3,10 +3,18 @@ const open = require("open");
 const config = require("./config");
 
 (async () => {
-  const { moxyApiRouter, childController, port, skipOpen } = await config();
+  const {
+    moxyApiRouter,
+    childController,
+    port,
+    skipOpen,
+    enableHealth,
+  } = await config();
 
   const app = express();
 
+  if (enableHealth)
+    app.get("/health", (req, res) => res.send({ status: "up" }));
   app.get("/", (req, res) => res.redirect("/web"));
   app.use(
     "/web",

@@ -6,6 +6,7 @@ const {
   port,
   skipOpen,
   git: { pushInterval, privateKey, remote },
+  enableHealth,
 } = require("./args");
 const { default: moxy } = require("moxy-js-server");
 
@@ -44,6 +45,7 @@ module.exports = {
       configPath,
       port,
       skipOpen,
+      enableHealth,
     };
   },
 };
