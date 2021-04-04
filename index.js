@@ -9,6 +9,7 @@ const config = require("./config");
     port,
     skipOpen,
     enableHealth,
+    staticContentPath,
   } = await config();
 
   const app = express();
@@ -16,10 +17,7 @@ const config = require("./config");
   if (enableHealth)
     app.get("/health", (req, res) => res.send({ status: "up" }));
   app.get("/", (req, res) => res.redirect("/web"));
-  app.use(
-    "/web",
-    express.static(`${__dirname}/node_modules/moxy-js-spa/build`)
-  );
+  app.use("/web", express.static(staticContentPath));
   app.use(moxyApiRouter);
 
   app.listen(port, async () => {
