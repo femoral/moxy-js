@@ -52,7 +52,7 @@ const makeUploadChanges = async ({ remote, key, collectionsPath }) => {
       await git.addRemote(remoteName, remote);
     }
 
-    await git.fetch(remoteName, branch);
+    await git.fetch();
   };
 
   const commit = async (message) => {
@@ -64,9 +64,8 @@ const makeUploadChanges = async ({ remote, key, collectionsPath }) => {
     console.log(`git: pushing changes`);
     await commit(message);
 
-    await git.fetch(remoteName, branch);
-
     if (await branchExistOnRemote()) {
+      await git.fetch(remoteName, branch);
       console.log(
         `git: rebasing remote changes with strategy ${rebaseStrategy}`
       );
