@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const staticContentResolver = async () => {
+const staticContentResolver = () => {
   for (const requirePath of require.resolve.paths("moxy-js-spa")) {
     const candidatePath = path.join(requirePath, "moxy-js-spa", "build");
     if (fs.existsSync(candidatePath)) {
