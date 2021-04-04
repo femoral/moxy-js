@@ -1,3 +1,4 @@
+const { staticContentResolver } = require("./static-content-resolver");
 const { configureLocalStorage } = require("./configure-local-storage");
 const { makeUploadChanges } = require("../git");
 const {
@@ -46,6 +47,7 @@ module.exports = {
       port,
       skipOpen,
       enableHealth,
+      staticContentPath: staticContentResolver(),
     };
   },
 };

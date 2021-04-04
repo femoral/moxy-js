@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
-    "moxy-js-server": "0.0.1-alpha.5",
+    "moxy-js-server": "0.0.1-alpha.6",
     "moxy-js-spa": "0.0.1-alpha.2",
     "open": "^8.0.4",
     "shelljs": "^0.8.4",
